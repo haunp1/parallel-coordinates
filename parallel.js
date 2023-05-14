@@ -32,7 +32,7 @@ var colors = {
   "Vo Hoang Phuc": [33, 81, 52],
   "Duong Trieu Phu": [188, 51, 188],
   "Nguyen Huu Quy": [0, 0, 0],
-  "Nguyen Tan Tai": [127, 114, 76],
+  "Nguyen Tien Tai": [127, 114, 76],
   "Dong Giang Thai": [161, 134, 54],
   "Le Cao Hoang Thai": [37, 162, 114],
   "Tran Chien Thanh": [170, 110, 148],
