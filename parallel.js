@@ -2,46 +2,86 @@ var width = 1200,
   height = 800;
 
 var colors = {
-  "Nguyen Minh Chi": [185, 56, 73],
-  "Tran Tan Dat": [137, 50, 75],
-  "Pham Hong Dinh": [255, 165, 0],
-  "Phan Thi My Dung": [10, 28, 67],
-  "Khuu Thi Thuy Duong": [255, 39, 57],
-  "Vo Le Duy": [56, 158, 73],
-  "Lu Thanh Giang": [28, 100, 52],
-  "Nguyen Phuc Hau": [41, 75, 61],
-  "Nguyen Trung Hau": [60, 86, 61],
-  "Tran Huu Hien": [30, 100, 73],
-  "Phan Van Hoan": [255, 65, 67],
-  "Nguyen Thai Hung": [255, 30, 76],
-  "Bui Dinh Gia Huy": [20, 149, 149],
-  "Lam Quoc Minh Huy": [255, 80, 84],
-  "Nguyen Dinh Quoc Huy": [185, 80, 45],
-  "Tran Minh Kha": [255, 69, 0],
-  "Nguyen Dang Khoa": [255, 60, 49],
-  "Lam Hieu Linh": [255, 69, 149],
-  "Tran Huynh Long": [204, 70, 41],
-  "Nguyen Huu Ly": [111, 100, 79],
-  "Do Quang Minh": [189, 57, 75],
-  "Ho Hai Minh": [110, 157, 170],
-  "Le Thi Kim Ngan": [214, 55, 79],
-  "Tran Chung Bao Ngan": [255, 60, 75],
-  "Nguyen Chi Nguyen": [120, 156, 140],
-  "Dang Thanh Phat": [139, 168, 79],
-  "Truong Tai Phat": [27, 165, 100],
-  "Vo Hoang Phuc": [33, 81, 52],
-  "Duong Trieu Phu": [188, 51, 188],
-  "Nguyen Huu Quy": [0, 0, 0],
+  "Nguyen Minh Chi": [0, 191, 255], // deep sky blue
+  ChiNM2: [0, 191, 255],
+  "Tran Tan Dat": [238, 130, 238], // violet
+  DatTT49: [238, 130, 238],
+  "Pham Hong Dinh": [128, 0, 128], // purple
+  DinhPH: [128, 0, 128],
+  "Phan Thi My Dung": [255, 165, 0], // orange
+  DungPTM8: [255, 165, 0],
+  "Khuu Thi Thuy Duong": [0, 0, 139], // dark blue
+  DuongKTT2: [0, 0, 139],
+  "Vo Le Duy": [139, 0, 0], // dark red
+  DuyVL: [139, 0, 0],
+  "Lu Thanh Giang": [176, 191, 26], // acid green
+  GiangLT12: [176, 191, 26],
+  "Nguyen Phuc Hau": [219, 45, 67], // alizarin
+  HauNP1: [219, 45, 67],
+  "Nguyen Trung Hau": [255, 191, 0], // amber
+  HauNT16: [255, 191, 0],
+  "Tran Huu Hien": [205, 149, 117], // antique brass
+  HienTH: [205, 149, 117],
+  "Phan Van Hoan": [75, 111, 68], // artichoke green
+  HoanPV4: [75, 111, 68],
+  "Nguyen Thai Hung": [226, 61, 40], // chilli red
+  HungNT69: [226, 61, 40],
+  "Bui Dinh Gia Huy": [123, 63, 0], // chocolate traditional
+  HuyBDG: [123, 63, 0],
+  "Lam Quoc Minh Huy": [133, 96, 136], // chinese violet
+  HuyLQM: [133, 96, 136],
+  "Nguyen Dinh Quoc Huy": [159, 169, 31], // citron
+  HuyNDQ2: [159, 169, 31],
+  "Tran Minh Kha": [111, 78, 55], // coffee
+  KhaTM1: [111, 78, 55],
+  "Nguyen Dang Khoa": [255, 127, 80], // coral
+  KhoaND56: [255, 127, 80],
+  "Lam Hieu Linh": [245, 111, 161], // cyclamen
+  LinhLH10: [245, 111, 161],
+  "Tran Huynh Long": [0, 139, 139], // dark cyan
+  LongTH22: [0, 139, 139],
+  "Nguyen Huu Ly": [85, 107, 47], // dark olive green
+  LyNH11: [85, 107, 47],
+  "Do Quang Minh": [233, 54, 167], // frostbite
+  MinhDQ15: [233, 54, 167],
+  "Ho Hai Minh": [162, 0, 109], // flirt
+  MinhHH5: [162, 0, 109],
+  "Le Thi Kim Ngan": [255, 84, 112], // fiery rose
+  NganLTK1: [255, 84, 112],
+  "Tran Chung Bao Ngan": [74, 100, 108], // deep space sparkle
+  NganTCB: [74, 100, 108],
+  "Nguyen Chi Nguyen": [126, 94, 96], // deep taupe
+  NguyenNC1: [126, 94, 96],
+  "Dang Thanh Phat": [194, 178, 128], // ecru
+  PhatDT2: [194, 178, 128],
+  "Truong Tai Phat": [139, 0, 139], // dark magenta
+  PhatTT5: [139, 0, 139],
+  "Vo Hoang Phuc": [143, 0, 255], // electric violet
+  PhucVH12: [143, 0, 255],
+  "Duong Trieu Phu": [149, 69, 53], // chest nut
+  PhuDT3: [149, 69, 53],
+  "Nguyen Huu Quy": [26, 36, 33], // dark jungle green
+  QuyNH29: [26, 36, 33],
   "Nguyen Tien Tai": [127, 114, 76],
-  "Dong Giang Thai": [161, 134, 54],
-  "Le Cao Hoang Thai": [37, 162, 114],
+  TaiNT27: [127, 114, 76],
+  "Dong Giang Thai": [0, 0, 156], // duke blue
+  ThaiDG: [0, 0, 156],
+  "Le Cao Hoang Thai": [189, 51, 164], // byzantine
+  ThaiLCH: [189, 51, 164],
   "Tran Chien Thanh": [170, 110, 148],
-  "Bui Duong Tinh": [90, 100, 154],
+  ThanhTC20: [170, 110, 148],
+  "Bui Duong Tinh": [138, 51, 36], // burnt umber
+  TinhBD: [138, 51, 36],
   "Phan Thanh Trung": [28, 143, 61],
+  TrungPT10: [28, 143, 61],
   "Tran Quoc Trung": [172, 123, 189],
+  TrungTQ28: [172, 123, 189],
   "Vu Thi Bich Van": [13, 85, 94],
+  VanVTB1: [13, 85, 94],
   "Lam The Vinh": [73, 124, 114],
+  AnhNT28: [73, 124, 114],
   "Le Nguyen Tan Vuong": [125, 160, 94],
+  VuongLNT: [125, 160, 94],
 };
 
 var textLength = 0;
@@ -55,22 +95,20 @@ var m = [60, 0, 10, 5 * textLength],
   xscale = d3.scale.ordinal().rangePoints([0, w], 1),
   yscale = {},
   xScaleStack = {},
-  yScaleStack = {},
-  xAxisStack = {},
-  yAxisStack = {},
+  yScaleStack = d3.scale.ordinal().rangeRoundBands([h, 0], 0.1),
   dragging = {},
   line = d3.svg.line(),
   axis = d3.svg
     .axis()
     .orient("left")
-    .ticks(1 + height / 50),
+    .ticks(1 + height / 100),
   data,
   foreground,
   background,
   highlighted,
   dimensions,
-  render_speed = 50,
-  brush_count = 0;
+  flag2light = false;
+(render_speed = 50), (brush_count = 0);
 
 // Grid
 var grid = d3.divgrid();
@@ -109,7 +147,7 @@ var svg = d3
   .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
 // Load the data and visualization
-d3.csv("emp_stats.csv", function (raw_data) {
+d3.csv("emp_acc.csv", function (raw_data) {
   // Convert quantitative scales to floats
   data = raw_data.map(function (d) {
     for (var k in d) {
@@ -123,7 +161,6 @@ d3.csv("emp_stats.csv", function (raw_data) {
   // Extract the list of numerical dimensions and create a scale for each.
   xscale.domain(
     (dimensions = d3.keys(data[0]).filter(function (k) {
-      // if (k == "Model") return false;
       if (_.isNumber(data[0][k])) {
         return (yscale[k] = d3.scale
           .linear()
@@ -139,7 +176,7 @@ d3.csv("emp_stats.csv", function (raw_data) {
   );
 
   // Extract the list for x-stack
-  xStack = d3.scale
+  xScaleStack = d3.scale
     .linear()
     .rangeRound([0, (w - 300) / (dimensions.length - 1)]);
 
@@ -179,15 +216,16 @@ d3.csv("emp_stats.csv", function (raw_data) {
         .on("dragend", function (d) {
           if (!this.__dragged__) {
             // no movement, invert axis
-            var extent = invert_axis(d);
+            // var extent = invert_axis(d);
           } else {
             // reorder axes
             d3.select(this)
               .transition()
               .attr("transform", "translate(" + xscale(d) + ")");
 
-            var extent = yscale[d].brush.extent();
+            // var extent = yscale[d].brush.extent();
           }
+          var extent = yscale[d].brush.extent();
 
           // TODO required to avoid a bug
           xscale.domain(dimensions);
@@ -195,6 +233,7 @@ d3.csv("emp_stats.csv", function (raw_data) {
 
           // rerender
           d3.select("#foreground").style("opacity", null);
+          clean_stacked_bar();
           brush();
           delete this.__dragged__;
           delete this.__origin__;
@@ -231,9 +270,29 @@ d3.csv("emp_stats.csv", function (raw_data) {
     .selectAll("rect")
     .style("visibility", null)
     .attr("x", -23)
-    .attr("width", 36)
-    .append("title")
-    .text("Drag up or down to brush along this axis");
+    .attr("width", 36);
+
+  var tooltip = d3
+    .select("body")
+    .append("div")
+    .style("position", "absolute")
+    .style("z-index", "10")
+    .style("visibility", "hidden")
+    .style("background", "grey")
+    .style("color", "white");
+
+  g.on({
+    mouseover: function (d) {
+      if (d == "Name") return;
+      var median = data.map((dt) => dt[d]).reduce((total, num) => total + num);
+      tooltip.text("Trung bình: " + median / data.length);
+      tooltip.style("visibility", "visible");
+      tooltip
+        .style("top", d3.event.pageY - 10 + "px")
+        .style("left", d3.event.pageX + 10 + "px");
+    },
+    mouseout: () => tooltip.style("visibility", "hidden"),
+  });
 
   g.selectAll(".extent").append("title").text("Drag or resize this filter");
 
@@ -344,7 +403,8 @@ function path(d, ctx, color) {
 
 function color(d, a) {
   var c = colors[d];
-  return ["rgba(", c[0], ",", c[1], ",", c[2], a, ")"].join("");
+  return `rgb(${c[0]}, ${c[1]}, ${c[2]})`;
+  // return ["rgba(", c[0], ",", c[1], ",", c[2], a, ")"].join("");
 }
 
 function position(d) {
@@ -413,6 +473,24 @@ function brush() {
       : null;
   });
 
+  // define double-click event to zoom line
+  d3.selectAll(".extent")
+    .style("pointer-events", "visible")
+    .on("dblclick", () => {
+      let svgPts = get_centroids(selected);
+      if (svgPts && svgPts.length == 0) return false;
+      if (flag2light) {
+        foreground.lineWidth = 6.0;
+        clean_tooltips();
+        add_tooltips(selected, svgPts);
+      } else {
+        foreground.lineWidth = 1.7;
+        clean_tooltips();
+        flag2light = false;
+      }
+      flag2light = !flag2light;
+    });
+
   // UPDATE [DATA TABLE] on brush event
   d3.select("#grid")
     .datum(selected)
@@ -423,6 +501,10 @@ function brush() {
       mouseout: unhighlight,
     });
 
+  var actives = actives.map((active) => {
+    return { [active]: selected };
+  });
+
   // Render selected lines
   paths(selected, foreground, brush_count, actives);
 }
@@ -431,8 +513,9 @@ function brush() {
 function paths(selected, ctx, count, actives) {
   var n = selected.length,
     i = 0,
-    opacity = d3.min([2 / Math.pow(n, 0.3), 1]),
-    timer = new Date().getTime();
+    // opacity = d3.min([2 / Math.pow(n, 0.3), 1]),
+    opacity = 1;
+  timer = new Date().getTime();
 
   selection_stats(opacity, n, data.length);
 
@@ -440,17 +523,22 @@ function paths(selected, ctx, count, actives) {
 
   ctx.clearRect(0, 0, w + 1, h + 1);
   if (actives && actives.length) {
-    ctx.lineWidth = 6.0;
-    let svgPts = get_centroids(selected);
-    if (svgPts && svgPts.length == 0) return false;
-    clean_tooltips();
-    add_tooltips(selected, svgPts);
+    // ctx.lineWidth = 6.0;
+    // let svgPts = get_centroids(selected);
+    // if (svgPts && svgPts.length == 0) return false;
+    // clean_tooltips();
+    // add_tooltips(selected, svgPts);
 
     // Render stacked bar
-    // clean_stacked_bar();
-    // stacked_bar(actives, selected);
+    clean_label_stacked_bar();
+    actives.forEach((active) =>
+      Object.entries(active).forEach((actdim) =>
+        stacked_bar(actdim[0], actdim[1])
+      )
+    );
   } else {
     clean_tooltips();
+    clean_label_stacked_bar();
     clean_stacked_bar();
     ctx.lineWidth = 1.7;
   }
@@ -515,9 +603,14 @@ function clean_tooltips() {
   svg.selectAll("#tooltip").remove();
 }
 
-// Remove stacked bar
+// Remove all stacked bar
 function clean_stacked_bar() {
   svg.selectAll(".stackrect").remove();
+}
+
+// Remove dimension total label
+function clean_label_stacked_bar() {
+  svg.selectAll(".totaltext").remove();
 }
 
 // Add tooltips
@@ -576,10 +669,8 @@ function add_tooltips(selected, pts) {
     .text((d) => d[2]);
 }
 
-function stacked_bar(actives, selected) {
-  var extents = actives.map(function (p) {
-    return yscale[p].brush.extent();
-  });
+function stacked_bar(actdim, selected) {
+  var extents = yscale[actdim].brush.extent();
 
   var dataset = selected.map((e) =>
     Object.keys(e)
@@ -590,93 +681,90 @@ function stacked_bar(actives, selected) {
           x: k,
         };
       })
+      .map((k) => {
+        return { name: e["Name"], ...k };
+      })
   );
 
   d3.layout.stack()(dataset);
 
   var dataset = dataset.map((group) =>
     group.map((ds) => {
-      return { x: ds.y, y: ds.x, x0: ds.y0 };
+      return { x: ds.y, y: ds.x, x0: ds.y0, name: ds.name };
     })
   );
 
-  // yAxisStack = d3.svg.axis().scale(yScaleStack).orient("left");
-
-  // var xMax = d3.max(dataset, function (group) {
-  //   var groupMax = d3.max(group, function (d) {
-  //     console.log("607: >>>>", d);
-  //     return d.x + d.x0;
-  //   });
-  //   return groupMax;
-  // });
-
-  // console.log("xMax: >>>>", xMax);
-
-  // var xScaleStack = d3.scale.linear().domain([0, xMax]).range([0, width]);
-
-  // xAxisStack = d3.svg.axis().scale(xScaleStack).orient("bottom");
-
-  var idx = 0;
+  var xMax = d3.max(dataset, function (group) {
+    var groupMax = d3.max(group, function (d) {
+      if (d.y == actdim) return d.x + d.x0;
+    });
+    return groupMax;
+  });
 
   dimensions.forEach(function (d) {
-    actives.forEach((ad) => {
-      if (ad == d) {
-        // group draw stacked bar
-        var xMax = d3.max(dataset, function (group) {
-          var groupMax = d3.max(group, function (d) {
-            if (d.y == ad) return d.x + d.x0;
-          });
-          return groupMax;
-        });
-        var xScaleStack = d3.scale.linear().domain([0, xMax]).range([0, width]);
-        yScaleStack = d3.scale
-          .ordinal()
-          .domain([ad])
-          .rangeRoundBands([0, h], 0.1);
-        // draw rectangle stacked bar
-        var draw_stacks = svg
-          .selectAll(".state" + d)
-          .data(dataset)
-          .enter()
-          .append("g")
-          .attr("class", "g");
+    if (actdim == d) {
+      // group draw stacked bar
+      yScaleStack.domain([actdim]);
+      xScaleStack.domain([0, xMax]);
+      // draw rectangle stacked bar
+      var draw_stacks = svg
+        .selectAll(".state" + d)
+        .data(dataset)
+        .enter()
+        .append("g")
+        .attr("class", "g")
+        .attr(
+          "transform",
+          () =>
+            "translate(" +
+            xscale(d) +
+            "," +
+            Math.min(650, yscale[d](selected[0][actdim])) +
+            ")"
+        );
 
-        draw_stacks
-          .selectAll("rect")
-          .data((ds, i) => {
-            idx = i;
-            return ds;
-          })
-          .enter()
-          .append("rect")
-          .attr("class", "stackrect")
-          .attr(
-            "height",
-            () =>
-              yscale[d](extents[actives.indexOf(d)][0]) -
-              yscale[d](extents[actives.indexOf(d)][1])
-          )
-          // .attr("width", 80)
-          .attr("x", () => xscale(d))
-          // .attr("y", (ds) => yscale[d](ds[d]) - 15)
-          // .attr("height", () => yScaleStack.rangeBand())
-          .attr("width", (ds) => {
-            if (ds.y == ad) {
-              console.log([ds, xMax, ds.x]);
-              return xScaleStack(xMax) - xScaleStack(ds.x);
-            }
-          })
-          // .attr("x", (ds) => {
-          //   if (ds.y == ad) return xScaleStack(ds.x);
-          // })
-          // .attr("y", (ds) => {
-          //   if (ds.y == ad) return yScaleStack(ds.y);
-          // })
-          .attr("y", () => yscale[d](selected[idx][d]) - 20)
-          .style("fill-opacity", 0.3)
-          .style("fill", () => color(selected[idx].Name, 0.9));
-      }
-    });
+      draw_stacks
+        .selectAll("rect")
+        .data((ds) => ds.sort((a, b) => a.y - b.y))
+        .enter()
+        .append("rect")
+        .filter((ds) => ds.y == actdim)
+        .attr("id", actdim)
+        .attr("class", "stackrect")
+        .attr("x", (ds) => xScaleStack(ds.x0))
+        .attr("height", () => {
+          return yscale[d](extents[0]) - yscale[d](extents[1]);
+        })
+        .attr("width", (ds) => xScaleStack(ds.x))
+        .style("fill-opacity", 0.7)
+        .style("fill", (ds) => color(ds.name, 0.9));
+
+      // Show total number label
+      svg.selectAll("#" + actdim + ".totaltext").remove();
+      draw_stacks
+        .selectAll(".totaltext")
+        .data((ds) => ds.sort((a, b) => a.y - b.y))
+        .enter()
+        .append("text")
+        .filter((ds) => ds.y == actdim)
+        .attr("id", actdim)
+        .attr("class", "totaltext")
+        .text((ds) => ds.x)
+        .attr(
+          "x",
+          (ds) =>
+            xScaleStack(ds.x0) +
+            Math.min(
+              draw_stacks.node().getBBox().width / 2,
+              draw_stacks.node().getBBox().width / selected.length
+            )
+        )
+        // .attr("transform", (ds) => "translate(" + (xScaleStack(ds.x0)) + ", 0)")
+        .style("font-size", 9)
+        // .style("writing-mode", "vertical-lr")
+        // .style("text-orientation", "upright")
+        .style("display", null);
+    }
   });
 }
 

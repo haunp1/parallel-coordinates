@@ -76,7 +76,7 @@ svg {
 }
 .axis text.label {
   font-size: 12px;
-  cursor: move;
+  cursor: pointer;
   padding-bottom: 24px;
 }
 .dark .axis text {
