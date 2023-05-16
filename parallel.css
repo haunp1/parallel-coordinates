@@ -186,7 +186,7 @@ small {
   background: #222;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #444;
+  background: rgb(68, 68, 68);
 }
 
 #grid {
@@ -219,5 +219,5 @@ small {
   font-family: sans-serif;
   font-size: 18px;
   font-weight: bold;
-  color: black;
+  color: rgb(0, 0, 0);
 }

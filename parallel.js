@@ -278,7 +278,7 @@ d3.csv("emp_acc.csv", function (raw_data) {
     .style("position", "absolute")
     .style("z-index", "10")
     .style("visibility", "hidden")
-    .style("background", "grey")
+    .style("background", "blue")
     .style("color", "white");
 
   g.on({
@@ -649,7 +649,7 @@ function add_tooltips(selected, pts) {
     .attr("rx", "2")
     .attr("ry", "2")
     .attr("id", "tooltip")
-    .attr("fill", "grey")
+    .attr("fill", "red")
     .attr("opacity", 0.9)
     .attr("width", (d) => d[2].length * 10)
     .attr("height", hRect);
@@ -719,7 +719,7 @@ function stacked_bar(actdim, selected) {
             "translate(" +
             xscale(d) +
             "," +
-            Math.min(650, yscale[d](selected[0][actdim])) +
+            yscale[d](extents[1]) +
             ")"
         );
 
