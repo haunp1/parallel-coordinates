@@ -89,7 +89,7 @@ Object.keys(colors).forEach((k) => {
   if (k.length > textLength) textLength = k.length;
 });
 
-var m = [60, 0, 10, 5 * textLength],
+var m = [80, 0, 10, 3 * textLength],
   w = width - m[1] - m[3],
   h = height - m[0] - m[2],
   xscale = d3.scale.ordinal().rangePoints([0, w], 1),
@@ -141,13 +141,15 @@ background.lineWidth = 1.7;
 // SVG for ticks, labels, and interactions
 var svg = d3
   .select("svg")
-  .attr("width", w + m[1] + m[3])
-  .attr("height", h + m[0] + m[2])
+  .attr("width", Math.max(1200, window.screen.width) + "px")
+  .attr("height", h + m[0] + m[2] + "px")
   .append("svg:g")
   .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
 // Load the data and visualization
-d3.csv("emp_acc.csv", function (raw_data) {
+d3.csv("emp_acc.csv", function (error, raw_data) {
+  if (error) throw error;
+
   // Convert quantitative scales to floats
   data = raw_data.map(function (d) {
     for (var k in d) {
@@ -215,8 +217,8 @@ d3.csv("emp_acc.csv", function (raw_data) {
         })
         .on("dragend", function (d) {
           if (!this.__dragged__) {
+            // logic invert_axis here
             // no movement, invert axis
-            // var extent = invert_axis(d);
           } else {
             // reorder axes
             d3.select(this)
@@ -332,14 +334,6 @@ function render_stats(i, n, render_speed) {
   d3.select("#render-speed").text(render_speed);
 }
 
-// Feedback on selection
-function selection_stats(opacity, n, total) {
-  d3.select("#data-count").text(total);
-  d3.select("#selected-count").text(n);
-  d3.select("#selected-bar").style("width", (100 * n) / total + "%");
-  d3.select("#opacity").text(("" + opacity * 100).slice(0, 4) + "%");
-}
-
 // Highlight single polyline
 function highlight(d) {
   d3.select("#foreground").style("opacity", "0.25");
@@ -356,29 +350,6 @@ function unhighlight() {
   highlighted.clearRect(0, 0, w, h);
 }
 
-function invert_axis(d) {
-  // save extent before inverting
-  if (!yscale[d].brush.empty()) {
-    var extent = yscale[d].brush.extent();
-  }
-  if (yscale[d].inverted == true) {
-    if (d == "Name") yscale[d].rangePoints([h, 0], 1);
-    else yscale[d].range([h, 0]);
-    d3.selectAll(".label")
-      .filter((p) => p == d)
-      .style("text-decoration", null);
-    yscale[d].inverted = false;
-  } else {
-    if (d == "Name") yscale[d].rangePoints([0, h], 1);
-    else yscale[d].range([0, h]);
-    d3.selectAll(".label")
-      .filter((p) => p == d)
-      .style("text-decoration", "underline");
-    yscale[d].inverted = true;
-  }
-  return extent;
-}
-
 function path(d, ctx, color) {
   if (color) ctx.strokeStyle = color;
   ctx.beginPath();
@@ -388,10 +359,10 @@ function path(d, ctx, color) {
   dimensions.map(function (p, i) {
     var x = xscale(p),
       y = yscale[p](d[p]);
-    var cp1x = x - 0.88 * (x - x0);
-    var cp1y = y0;
-    var cp2x = x - 0.12 * (x - x0);
-    var cp2y = y;
+    // var cp1x = x - 0.88 * (x - x0);
+    // var cp1y = y0;
+    // var cp2x = x - 0.12 * (x - x0);
+    // var cp2y = y;
     // ctx.bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y);
     ctx.lineTo(x, y);
     x0 = x;
@@ -517,18 +488,10 @@ function paths(selected, ctx, count, actives) {
     opacity = 1;
   timer = new Date().getTime();
 
-  selection_stats(opacity, n, data.length);
-
   shuffled_data = _.shuffle(selected);
 
   ctx.clearRect(0, 0, w + 1, h + 1);
   if (actives && actives.length) {
-    // ctx.lineWidth = 6.0;
-    // let svgPts = get_centroids(selected);
-    // if (svgPts && svgPts.length == 0) return false;
-    // clean_tooltips();
-    // add_tooltips(selected, svgPts);
-
     // Render stacked bar
     clean_label_stacked_bar();
     actives.forEach((active) =>
@@ -669,6 +632,7 @@ function add_tooltips(selected, pts) {
     .text((d) => d[2]);
 }
 
+// add stack bar
 function stacked_bar(actdim, selected) {
   var extents = yscale[actdim].brush.extent();
 
@@ -715,12 +679,7 @@ function stacked_bar(actdim, selected) {
         .attr("class", "g")
         .attr(
           "transform",
-          () =>
-            "translate(" +
-            xscale(d) +
-            "," +
-            yscale[d](extents[1]) +
-            ")"
+          () => "translate(" + xscale(d) + "," + yscale[d](extents[1]) + ")"
         );
 
       draw_stacks
@@ -759,10 +718,7 @@ function stacked_bar(actdim, selected) {
               draw_stacks.node().getBBox().width / selected.length
             )
         )
-        // .attr("transform", (ds) => "translate(" + (xScaleStack(ds.x0)) + ", 0)")
         .style("font-size", 9)
-        // .style("writing-mode", "vertical-lr")
-        // .style("text-orientation", "upright")
         .style("display", null);
     }
   });
@@ -824,70 +780,6 @@ function update_ticks(d, extent) {
       .style("font-size", null)
       .style("display", null);
   });
-}
-
-// Rescale to new dataset domain
-function rescale() {
-  // reset yscales, preserving inverted state
-  dimensions.forEach(function (d, i) {
-    if (yscale[d].inverted) {
-      if (d == "Origin")
-        yscale[d] = d3.scale
-          .ordinal()
-          .domain(data.map((p) => p[d]))
-          .rangePoints([0, h], 1);
-
-      yscale[d] = d3.scale
-        .linear()
-        .domain(
-          d3.extent(data, function (p) {
-            return +p[d];
-          })
-        )
-        .range([0, h]);
-      yscale[d].inverted = true;
-    } else {
-      if (d == "Origin")
-        yscale[d] = d3.scale
-          .ordinal()
-          .domain(data.map((p) => p[d]))
-          .rangePoints([h, 0], 1);
-      yscale[d] = d3.scale
-        .linear()
-        .domain(
-          d3.extent(data, function (p) {
-            return +p[d];
-          })
-        )
-        .range([h, 0]);
-    }
-  });
-
-  update_ticks();
-  // Render selected data
-  paths(data, foreground, brush_count, data);
-}
-
-// Get polylines within extents
-function actives() {
-  var actives = dimensions.filter(function (p) {
-      return !yscale[p].brush.empty();
-    }),
-    extents = actives.map(function (p) {
-      return yscale[p].brush.extent();
-    });
-
-  // filter extents and excluded groups
-  var selected = [];
-  data.map(function (d) {
-    return actives.every(function (p, i) {
-      return extents[i][0] <= d[p] && d[p] <= extents[i][1];
-    })
-      ? selected.push(d)
-      : null;
-  });
-
-  return selected;
 }
 
 function show_ticks() {

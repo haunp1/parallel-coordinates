@@ -3,41 +3,37 @@
   padding: 0;
   box-sizing: border-box;
 }
-html,
+
 body {
-  font-size: 14px;
-  font-family: "Arial", Helvetica, sans-serif;
-  margin: 20px auto 10px;
-  width: 1200px;
-  height: 100vh;
-  background: #fcfcfc;
-  line-height: 1.4em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
 }
+
 a {
   text-decoration: none;
 }
 #wrap {
-  padding: 0 3.5%;
+  width: 90%;
+  margin-top: 50px;
 }
+
 svg {
-  font-family: Arial, Tahoma, Helvetica, sans-serif;
+  font-family: Arial, Tahoma, sans-serif;
 }
+
 canvas,
 svg {
   position: absolute;
-  top: 0;
+  top: 50px;
   left: 0;
 }
-#chart {
-  position: relative;
-}
+
 .brush rect.extent {
   fill: rgba(100, 100, 100, 0.15);
   stroke: #fff;
-}
-.dark .brush rect.extent {
-  fill: rgba(100, 100, 100, 0.15);
-  stroke: #ddd;
 }
 .brush:hover rect.extent {
   stroke: #222;
@@ -52,18 +48,12 @@ svg {
 .background {
   fill: none;
 }
-.dark .background {
-  fill: none;
-}
+
 .axis line,
 .axis path {
   fill: none;
   stroke: #777;
   stroke-width: 1;
-}
-.dark .axis line,
-.dark .axis path {
-  stroke: #777;
 }
 .axis .tick {
   width: 200px;
@@ -71,21 +61,15 @@ svg {
 .axis text {
   fill: #111;
   text-anchor: right;
-  font-size: 11px;
+  font-size: 12px;
   text-shadow: 0 1px 0 #fff, 1px 0 0 #fff, 0 -1px 0 #fff, -1px 0 0 #fff;
 }
 .axis text.label {
-  font-size: 12px;
+  font-size: 14px;
   cursor: pointer;
   padding-bottom: 24px;
 }
-.dark .axis text {
-  fill: #f2f2f2;
-  text-shadow: 0 1px 0 #000, 1px 0 0 #000, 0 -1px 0 #000, -1px 0 0 #000;
-}
-.dark .axis text.label {
-  fill: #ddd;
-}
+
 h3 {
   margin: 12px 0 9px;
 }
@@ -110,12 +94,7 @@ small {
 .off {
   color: #999;
 }
-.dark .off {
-  color: #555;
-}
-.dark #legend {
-  border-left: 1px solid #777;
-}
+
 .color-block,
 .color-bar {
   display: inline-block;
@@ -149,10 +128,6 @@ small {
   padding: 6px 24px 4px;
   line-height: 24px;
 }
-.dark #header {
-  background: #040404;
-  color: #f3f3f3;
-}
 #header h1 {
   display: inline-block;
   margin: 0px 14px 0 0;
@@ -182,15 +157,10 @@ small {
   background: #b5b5b5;
   border-radius: 12px;
 }
-.dark ::-webkit-scrollbar-track {
-  background: #222;
-}
-.dark ::-webkit-scrollbar-thumb {
-  background: rgb(68, 68, 68);
-}
 
 #grid {
-  width: 100%;
+  width: 90%;
+  margin-top: 50px;
 }
 .row,
 .header {
