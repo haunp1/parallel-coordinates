@@ -89,7 +89,7 @@ Object.keys(colors).forEach((k) => {
   if (k.length > textLength) textLength = k.length;
 });
 
-var m = [80, 0, 10, 3 * textLength],
+var m = [80, 0, 10, 10 * textLength],
   w = width - m[1] - m[3],
   h = height - m[0] - m[2],
   xscale = d3.scale.ordinal().rangePoints([0, w], 1),
@@ -287,7 +287,7 @@ d3.csv("emp_acc.csv", function (error, raw_data) {
     mouseover: function (d) {
       if (d == "Name") return;
       var median = data.map((dt) => dt[d]).reduce((total, num) => total + num);
-      tooltip.text("Trung bình: " + median / data.length);
+      tooltip.text("Trung bình: " + (median / data.length).toFixed(2));
       tooltip.style("visibility", "visible");
       tooltip
         .style("top", d3.event.pageY - 10 + "px")
@@ -444,22 +444,31 @@ function brush() {
       : null;
   });
 
-  // define double-click event to zoom line
+  // handle click event to open tooltip + lineWidth
   d3.selectAll(".extent")
     .style("pointer-events", "visible")
-    .on("dblclick", () => {
-      let svgPts = get_centroids(selected);
-      if (svgPts && svgPts.length == 0) return false;
-      if (flag2light) {
-        foreground.lineWidth = 6.0;
-        clean_tooltips();
-        add_tooltips(selected, svgPts);
-      } else {
-        foreground.lineWidth = 1.7;
-        clean_tooltips();
-        flag2light = false;
+    .on({
+      click: () => {
+        let svgPts = get_centroids(selected);
+        if (svgPts && svgPts.length == 0) return false;
+        if (flag2light) {
+          foreground.lineWidth = 6.0;
+          clean_tooltips();
+          add_tooltips(selected, svgPts);
+        } else {
+          foreground.lineWidth = 1.7;
+          clean_tooltips();
+          flag2light = false;
+        }
+        flag2light = !flag2light;
+      },
+      dblclick: () => {
+        var new_data = this.actives(); 
+        if (new_data.length == 0) return;
+        data = new_data;
+        console.log([data, new_data]);
+        rescale();
       }
-      flag2light = !flag2light;
     });
 
   // UPDATE [DATA TABLE] on brush event
@@ -780,6 +789,55 @@ function update_ticks(d, extent) {
       .style("font-size", null)
       .style("display", null);
   });
+}
+
+// Get polylines within extents
+function actives() {
+  var actives = dimensions.filter(function (p) {
+      return !yscale[p].brush.empty();
+    }),
+    extents = actives.map(function (p) {
+      return yscale[p].brush.extent();
+    });
+
+  // filter extents and excluded groups
+  var selected = [];
+  data.map(function (d) {
+    return actives.every(function (p, dimension) {
+      if (typeof d[p] == "string") {
+        return (
+          extents[dimension][0] <= yscale[p](d[p]) &&
+          yscale[p](d[p]) <= extents[dimension][1]
+        );
+      }
+      return extents[dimension][0] <= d[p] && d[p] <= extents[dimension][1];
+    })
+      ? selected.push(d)
+      : null;
+  });
+
+  return selected;
+}
+
+// Rescale to new dataset domain
+function rescale() {
+  // reset yscales, preserving inverted state
+  dimensions.forEach(function(d, i) {
+    if (d == "Name") {
+      yscale[d] = d3.scale.ordinal()
+          .domain(data.map((e) => e.Name))
+          .rangePoints([h, 0], 1);
+    } else {
+      yscale[d] = d3.scale.linear()
+          .domain(d3.extent(data, function(p) { return +p[d]; }))
+          .range([h, 0]);
+    }
+  });
+
+  update_ticks();
+
+  // Render selected data
+  paths(data, foreground, brush_count, []);
 }
 
 function show_ticks() {
