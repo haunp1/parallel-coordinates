@@ -103,11 +103,13 @@ var m = [80, 0, 10, 10 * textLength],
     .orient("left")
     .ticks(1 + height / 100),
   data,
+  origin_data,
   foreground,
   background,
   highlighted,
   dimensions,
   flag2light = false;
+flagSvgCtxMenu = true;
 (render_speed = 50), (brush_count = 0);
 
 // Grid
@@ -143,6 +145,14 @@ var svg = d3
   .select("svg")
   .attr("width", Math.max(1200, window.screen.width) + "px")
   .attr("height", h + m[0] + m[2] + "px")
+  .on({
+    contextmenu: () => {
+      if (!flagSvgCtxMenu) return;
+      d3.event.preventDefault();
+      d3.event.stopImmediatePropagation();
+      this.context_menu__svg(d3.event.pageX, d3.event.pageY);
+    },
+  })
   .append("svg:g")
   .attr("transform", "translate(" + m[3] + "," + m[0] + ")");
 
@@ -159,6 +169,9 @@ d3.csv("emp_acc.csv", function (error, raw_data) {
     }
     return d;
   });
+
+  // origin data
+  origin_data = data;
 
   // Extract the list of numerical dimensions and create a scale for each.
   xscale.domain(
@@ -272,7 +285,14 @@ d3.csv("emp_acc.csv", function (error, raw_data) {
     .selectAll("rect")
     .style("visibility", null)
     .attr("x", -23)
-    .attr("width", 36);
+    .attr("width", 36)
+    .on({
+      contextmenu: () => {
+        d3.event.preventDefault();
+        this.context_menu__brush_selection(d3.event.pageX, d3.event.pageY);
+        flagSvgCtxMenu = false;
+      },
+    });
 
   var tooltip = d3
     .select("body")
@@ -448,7 +468,7 @@ function brush() {
   d3.selectAll(".extent")
     .style("pointer-events", "visible")
     .on({
-      click: () => {
+      dblclick: () => {
         let svgPts = get_centroids(selected);
         if (svgPts && svgPts.length == 0) return false;
         if (flag2light) {
@@ -462,13 +482,6 @@ function brush() {
         }
         flag2light = !flag2light;
       },
-      dblclick: () => {
-        var new_data = this.actives(); 
-        if (new_data.length == 0) return;
-        data = new_data;
-        console.log([data, new_data]);
-        rescale();
-      }
     });
 
   // UPDATE [DATA TABLE] on brush event
@@ -822,15 +835,21 @@ function actives() {
 // Rescale to new dataset domain
 function rescale() {
   // reset yscales, preserving inverted state
-  dimensions.forEach(function(d, i) {
+  dimensions.forEach(function (d, i) {
     if (d == "Name") {
-      yscale[d] = d3.scale.ordinal()
-          .domain(data.map((e) => e.Name))
-          .rangePoints([h, 0], 1);
+      yscale[d] = d3.scale
+        .ordinal()
+        .domain(data.map((e) => e.Name))
+        .rangePoints([h, 0], 1);
     } else {
-      yscale[d] = d3.scale.linear()
-          .domain(d3.extent(data, function(p) { return +p[d]; }))
-          .range([h, 0]);
+      yscale[d] = d3.scale
+        .linear()
+        .domain(
+          d3.extent(data, function (p) {
+            return +p[d];
+          })
+        )
+        .range([h, 0]);
     }
   });
 
@@ -840,6 +859,24 @@ function rescale() {
   paths(data, foreground, brush_count, []);
 }
 
+d3.select("#hdl_refresh").on("click", refresh_data);
+d3.select("#hdl_detail").on("click", rescale_data);
+
+// refresh data
+function refresh_data() {
+  data = origin_data;
+  rescale();
+  d3.selectAll("#context-menu__svg").style("visibility", "hidden");
+}
+
+function rescale_data() {
+  var new_data = actives();
+  if (new_data.length == 0) return;
+  data = new_data;
+  rescale();
+  d3.selectAll("#context-menu__brush_selection").style("visibility", "hidden");
+}
+
 function show_ticks() {
   d3.selectAll(".axis g").style("display", null);
   //d3.selectAll(".axis path").style("display", null);
@@ -847,3 +884,33 @@ function show_ticks() {
   d3.selectAll("#show-ticks").attr("disabled", "disabled");
   d3.selectAll("#hide-ticks").attr("disabled", null);
 }
+
+function context_menu__brush_selection(leftX, topY) {
+  d3.select("#context-menu__brush_selection")
+    .style("visibility", "visible")
+    .style("top", topY + "px")
+    .style("left", leftX + "px");
+}
+
+function context_menu__svg(leftX, topY) {
+  d3.select("#context-menu__svg")
+    .style("visibility", "visible")
+    .style("top", topY + "px")
+    .style("left", leftX + "px");
+}
+
+// Click outside the menu to close it (for click devices)
+document.addEventListener("click", (e) => {
+  flagSvgCtxMenu = true;
+  if (!document.getElementById("context-menu__svg").contains(e.target)) {
+    d3.selectAll("#context-menu__svg").style("visibility", "hidden");
+  }
+  if (
+    !document.getElementById("context-menu__brush_selection").contains(e.target)
+  ) {
+    d3.selectAll("#context-menu__brush_selection").style(
+      "visibility",
+      "hidden"
+    );
+  }
+});

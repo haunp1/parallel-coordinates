@@ -191,3 +191,23 @@ small {
   font-weight: bold;
   color: rgb(0, 0, 0);
 }
+
+#context-menu__svg, #context-menu__brush_selection {
+  background-color: #ffffff;
+  box-shadow: 0 0 20px rgba(37, 40, 42, 0.22);
+  color: #1f194c;
+  width: 10em;
+  padding: 10px;
+  font-size: 14px;
+  position: fixed;
+  visibility: hidden;
+}
+
+.item {
+  padding: 0.3em 1.2em;
+}
+
+.item:hover {
+  background-color: rgba(44, 141, 247, 0.2);
+  cursor: pointer;
+}
